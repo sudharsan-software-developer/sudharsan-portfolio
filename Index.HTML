@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sudharsan — Python Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #12151c;
+    --bg-raised: #171b24;
+    --panel: #1b2029;
+    --ink: #e9e7de;
+    --ink-dim: #9aa0ab;
+    --ink-faint: #656d7a;
+    --accent: #6fbf9e;
+    --accent-soft: #6fbf9e33;
+    --gold: #d3a75c;
+    --line: #2a2f3a;
+    --serif: 'Fraunces', Georgia, serif;
+    --mono: 'JetBrains Mono', 'Courier New', monospace;
+    --sans: 'Inter', -apple-system, sans-serif;
+  }
+  :root:not([data-theme="light"]){
+    color-scheme: dark;
+  }
+  :root[data-theme="light"]{
+    --bg: #f6f4ee;
+    --bg-raised: #ffffff;
+    --panel: #ffffff;
+    --ink: #191c22;
+    --ink-dim: #565f6c;
+    --ink-faint: #8b93a0;
+    --accent: #2f8f6c;
+    --accent-soft: #2f8f6c22;
+    --gold: #a3762e;
+    --line: #e1ddd0;
+  }
+  @media (prefers-color-scheme: light){
+    :root:not([data-theme="dark"]){
+      --bg: #f6f4ee;
+      --bg-raised: #ffffff;
+      --panel: #ffffff;
+      --ink: #191c22;
+      --ink-dim: #565f6c;
+      --ink-faint: #8b93a0;
+      --accent: #2f8f6c;
+      --accent-soft: #2f8f6c22;
+      --gold: #a3762e;
+      --line: #e1ddd0;
+    }
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family: var(--sans);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;}
+  img{max-width:100%;}
+
+  ::selection{ background:var(--accent-soft); color:var(--ink); }
+
+  .wrap{
+    max-width:920px;
+    margin:0 auto;
+    padding:0 28px;
+  }
+
+  /* ---------- NAV ---------- */
+  header.nav{
+    position:sticky; top:0; z-index:50;
+    background:color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    max-width:920px; margin:0 auto; padding:16px 28px;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .nav-mark{
+    font-family:var(--mono); font-size:14px; color:var(--accent);
+    letter-spacing:0.02em;
+  }
+  .nav-links{ display:flex; gap:26px; list-style:none; }
+  .nav-links a{
+    font-size:14px; color:var(--ink-dim); text-decoration:none;
+    transition:color .2s ease;
+  }
+  .nav-links a:hover{ color:var(--ink); }
+  .theme-toggle{
+    background:none; border:1px solid var(--line); color:var(--ink-dim);
+    font-family:var(--mono); font-size:12px; padding:5px 10px; border-radius:20px;
+    cursor:pointer;
+  }
+  .theme-toggle:hover{ color:var(--ink); border-color:var(--ink-faint); }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:76px 0 54px;
+  }
+  .hero-grid{
+    display:grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap:56px;
+    align-items:center;
+  }
+  .eyebrow-free h1{
+    font-family:var(--serif);
+    font-weight:500;
+    font-size:clamp(2.4rem, 5vw, 3.4rem);
+    line-height:1.08;
+    letter-spacing:-0.01em;
+  }
+  .hero-role{
+    margin-top:14px;
+    font-size:1.05rem;
+    color:var(--ink-dim);
+    max-width:46ch;
+  }
+  .hero-role strong{ color:var(--ink); font-weight:600; }
+
+  .hero-meta{
+    margin-top:30px;
+    display:flex;
+    flex-direction:column;
+    gap:9px;
+    font-family:var(--mono);
+    font-size:13.5px;
+    color:var(--ink-dim);
+  }
+  .hero-meta a{ text-decoration:none; }
+  .hero-meta a:hover{ color:var(--accent); }
+  .hero-meta span.dot{ color:var(--accent); margin-right:10px; }
+
+  .hero-cta{
+    margin-top:34px;
+    display:flex;
+    gap:14px;
+  }
+  .btn{
+    display:inline-block;
+    padding:12px 22px;
+    border-radius:6px;
+    font-size:14px;
+    font-weight:600;
+    text-decoration:none;
+    transition:transform .15s ease, opacity .15s ease;
+  }
+  .btn-primary{
+    background:var(--accent);
+    color:#0e1310;
+  }
+  .btn-primary:hover{ transform:translateY(-1px); }
+  .btn-ghost{
+    border:1px solid var(--line);
+    color:var(--ink);
+  }
+  .btn-ghost:hover{ border-color:var(--ink-faint); }
+
+  /* terminal mock */
+  .term{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow: 0 20px 50px -25px rgba(0,0,0,.6);
+  }
+  .term-bar{
+    display:flex; align-items:center; gap:7px;
+    padding:11px 14px;
+    border-bottom:1px solid var(--line);
+    background:var(--bg-raised);
+  }
+  .term-dot{ width:10px; height:10px; border-radius:50%; }
+  .term-dot.r{ background:#e0685a; }
+  .term-dot.y{ background:#e0b45a; }
+  .term-dot.g{ background:#5ac98a; }
+  .term-title{
+    margin-left:8px;
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--ink-faint);
+  }
+  .term-body{
+    padding:22px 20px 26px;
+    font-family:var(--mono);
+    font-size:13.4px;
+    line-height:1.75;
+    white-space:pre;
+    overflow-x:auto;
+  }
+  .tk-kw{ color:#c792ea; }
+  .tk-fn{ color:#82aaff; }
+  .tk-str{ color:var(--accent); }
+  .tk-com{ color:var(--ink-faint); font-style:italic; }
+  .tk-var{ color:var(--gold); }
+  .caret{
+    display:inline-block; width:7px; height:15px;
+    background:var(--accent); vertical-align:-2px;
+    animation:blink 1.1s steps(1) infinite;
+  }
+  @keyframes blink{ 50%{ opacity:0; } }
+
+  /* ---------- SECTIONS ---------- */
+  section{ padding:54px 0; border-top:1px solid var(--line); }
+  .sec-head{
+    display:flex; align-items:baseline; justify-content:space-between;
+    margin-bottom:30px;
+    gap:20px;
+  }
+  .sec-head h2{
+    font-family:var(--serif);
+    font-weight:500;
+    font-size:1.7rem;
+  }
+  .sec-num{
+    font-family:var(--mono);
+    font-size:12.5px;
+    color:var(--ink-faint);
+  }
+
+  /* about */
+  .about-text{
+    max-width:64ch;
+    font-size:1.02rem;
+    color:var(--ink-dim);
+  }
+  .about-text strong{ color:var(--ink); font-weight:600;}
+
+  /* skills */
+  .skills-list{
+    display:grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap:0;
+    border:1px solid var(--line);
+    border-radius:10px;
+    overflow:hidden;
+  }
+  .skill-row{
+    display:flex; align-items:center; gap:12px;
+    padding:16px 18px;
+    border-bottom:1px solid var(--line);
+    font-size:14.5px;
+  }
+  .skill-row:nth-child(odd){ border-right:1px solid var(--line); }
+  .skill-row:nth-last-child(-n+2){ border-bottom:none; }
+  .skill-bullet{
+    width:6px; height:6px; border-radius:50%;
+    background:var(--accent); flex-shrink:0;
+  }
+  @media (max-width:600px){
+    .skills-list{ grid-template-columns:1fr; }
+    .skill-row:nth-child(odd){ border-right:none; }
+    .skill-row:nth-last-child(-n+2){ border-bottom:1px solid var(--line); }
+    .skill-row:last-child{ border-bottom:none; }
+  }
+
+  /* education / experience as record rows */
+  .record{
+    display:grid;
+    grid-template-columns: 150px 1fr;
+    gap:20px;
+    padding:20px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .record:last-child{ border-bottom:none; }
+  .record-when{
+    font-family:var(--mono);
+    font-size:12.5px;
+    color:var(--ink-faint);
+    padding-top:3px;
+  }
+  .record-title{ font-weight:600; font-size:1.02rem; margin-bottom:5px; }
+  .record-sub{ color:var(--ink-dim); font-size:14.5px; }
+  @media (max-width:600px){
+    .record{ grid-template-columns:1fr; gap:6px; }
+  }
+
+  /* strengths */
+  .strengths{
+    display:flex; flex-wrap:wrap; gap:10px;
+  }
+  .pill{
+    border:1px solid var(--line);
+    padding:8px 16px;
+    border-radius:20px;
+    font-size:13.5px;
+    color:var(--ink-dim);
+  }
+
+  /* languages */
+  .lang-row{
+    display:flex; gap:40px;
+  }
+  .lang-item{ font-size:14.5px; color:var(--ink-dim); }
+  .lang-item strong{ color:var(--ink); display:block; font-size:1.05rem; margin-bottom:3px; font-weight:600; }
+
+  /* contact */
+  .contact-card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:40px;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:24px;
+    flex-wrap:wrap;
+  }
+  .contact-card h2{
+    font-family:var(--serif);
+    font-weight:500;
+    font-size:1.9rem;
+    max-width:14ch;
+    line-height:1.15;
+  }
+  .contact-links{
+    display:flex; flex-direction:column; gap:10px;
+    font-family:var(--mono);
+    font-size:14px;
+  }
+  .contact-links a{ text-decoration:none; }
+  .contact-links a:hover{ color:var(--accent); }
+
+  footer{
+    padding:30px 0 50px;
+    text-align:center;
+    font-size:12.5px;
+    color:var(--ink-faint);
+  }
+
+  @media (max-width:760px){
+    .hero-grid{ grid-template-columns:1fr; }
+    .term{ order:-1; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .caret{ animation:none; }
+    html{ scroll-behavior:auto; }
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <span class="nav-mark">sudharsan.py</span>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="theme-toggle" id="themeToggle" type="button">mode</button>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="hero">
+    <div class="hero-grid">
+      <div class="eyebrow-free">
+        <h1>Sudharsan builds things in Python.</h1>
+        <p class="hero-role">
+          A <strong>B.Sc. Artificial Intelligence &amp; Machine Learning</strong> student from Pramathivelur, learning to write clean Python and looking for a first role where that can grow into real work.
+        </p>
+
+        <div class="hero-meta">
+          <a href="mailto:sudharsan2882@gmail.com"><span class="dot">&#9656;</span>sudharsan2882@gmail.com</a>
+          <a href="tel:+919363501106"><span class="dot">&#9656;</span>+91 93635 01106</a>
+          <span><span class="dot">&#9656;</span>Pramathivelur, Tamil Nadu</span>
+        </div>
+
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="#contact">Get in touch</a>
+          <a class="btn btn-ghost" href="#education">See background</a>
+        </div>
+      </div>
+
+      <div class="term">
+        <div class="term-bar">
+          <span class="term-dot r"></span>
+          <span class="term-dot y"></span>
+          <span class="term-dot g"></span>
+          <span class="term-title">about_me.py</span>
+        </div>
+        <div class="term-body"><span class="tk-kw">class</span> <span class="tk-fn">Sudharsan</span>:
+    <span class="tk-var">name</span> = <span class="tk-str">"Sudharsan"</span>
+    <span class="tk-var">role</span> = <span class="tk-str">"Python Developer"</span>
+    <span class="tk-var">studies</span> = <span class="tk-str">"B.Sc. AI & ML"</span>
+    <span class="tk-var">location</span> = <span class="tk-str">"Pramathivelur"</span>
+    <span class="tk-var">status</span> = <span class="tk-str">"Fresher"</span>
+
+    <span class="tk-com"># still learning, always building</span>
+    <span class="tk-var">strengths</span> = [
+        <span class="tk-str">"quick learner"</span>,
+        <span class="tk-str">"problem solver"</span>,
+        <span class="tk-str">"team player"</span>,
+    ]
+
+<span class="tk-kw">if</span> __name__ == <span class="tk-str">"__main__"</span>:
+    <span class="tk-fn">print</span>(<span class="tk-str">"open to opportunities"</span>)<span class="caret"></span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="sec-head">
+      <h2>About</h2>
+      <span class="sec-num">01</span>
+    </div>
+    <p class="about-text">
+      I'm a Python developer in training, currently completing my <strong>B.Sc. in Artificial Intelligence and Machine Learning</strong> at Muthayamma College of Arts and Science, Rasipuram. I'm most interested in the practical side of AI and ML &mdash; writing Python that actually does something &mdash; and I'm looking for an entry-level role where I can apply what I've learned, pick up real engineering habits, and keep growing alongside a team.
+    </p>
+  </section>
+
+  <section id="skills">
+    <div class="sec-head">
+      <h2>Skills</h2>
+      <span class="sec-num">02</span>
+    </div>
+    <div class="skills-list">
+      <div class="skill-row"><span class="skill-bullet"></span>Python Programming</div>
+      <div class="skill-row"><span class="skill-bullet"></span>Python Development</div>
+      <div class="skill-row"><span class="skill-bullet"></span>Artificial Intelligence Fundamentals</div>
+      <div class="skill-row"><span class="skill-bullet"></span>Machine Learning Fundamentals</div>
+    </div>
+  </section>
+
+  <section id="education">
+    <div class="sec-head">
+      <h2>Education</h2>
+      <span class="sec-num">03</span>
+    </div>
+    <div class="record">
+      <div class="record-when">In progress</div>
+      <div>
+        <div class="record-title">B.Sc. Artificial Intelligence &amp; Machine Learning</div>
+        <div class="record-sub">Muthayamma College of Arts and Science, Rasipuram</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="sec-head">
+      <h2>Experience</h2>
+      <span class="sec-num">04</span>
+    </div>
+    <div class="record">
+      <div class="record-when">Currently</div>
+      <div>
+        <div class="record-title">Fresher, actively looking</div>
+        <div class="record-sub">Seeking an entry-level opportunity to gain professional experience and apply technical knowledge in a real-world environment.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="languages">
+    <div class="sec-head">
+      <h2>Languages</h2>
+      <span class="sec-num">05</span>
+    </div>
+    <div class="lang-row">
+      <div class="lang-item"><strong>Tamil</strong>Native</div>
+      <div class="lang-item"><strong>English</strong>Working proficiency</div>
+    </div>
+  </section>
+
+  <section id="strengths">
+    <div class="sec-head">
+      <h2>Strengths</h2>
+      <span class="sec-num">06</span>
+    </div>
+    <div class="strengths">
+      <span class="pill">Quick Learner</span>
+      <span class="pill">Problem-Solving</span>
+      <span class="pill">Willingness to Learn</span>
+      <span class="pill">Adaptability</span>
+      <span class="pill">Teamwork</span>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="sec-head">
+      <h2>Contact</h2>
+      <span class="sec-num">07</span>
+    </div>
+    <div class="contact-card">
+      <h2>Let's work together.</h2>
+      <div class="contact-links">
+        <a href="mailto:sudharsan2882@gmail.com">sudharsan2882@gmail.com</a>
+        <a href="tel:+919363501106">+91 93635 01106</a>
+        <span>Pramathivelur, Tamil Nadu</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Sudharsan &middot; Python Developer &middot; Built with Python on the mind.
+</footer>
+
+<script>
+  (function(){
+    var root = document.documentElement;
+    var btn = document.getElementById('themeToggle');
+    var stored = null;
+    try { stored = localStorage.getItem('theme'); } catch(e) {}
+    if(stored){ root.setAttribute('data-theme', stored); }
+
+    btn.addEventListener('click', function(){
+      var current = root.getAttribute('data-theme');
+      var isDark = current ? current === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+      var next = isDark ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try { localStorage.setItem('theme', next); } catch(e) {}
+    });
+  })();
+</script>
+
+</body>
+</html>
